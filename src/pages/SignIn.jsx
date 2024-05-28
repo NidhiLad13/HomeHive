@@ -1,11 +1,14 @@
 import React from 'react';
 import { FaEyeSlash, FaEye } from 'react-icons/fa';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import OAuth from '../components/OAuth';
+import { signInWithEmailAndPassword,auth, getAuth } from 'firebase/auth';
+import { toast } from 'react-toastify';
 export default function SignIn() {
 
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password:"",
@@ -19,6 +22,20 @@ export default function SignIn() {
       [e.target.id]: e.target.value,
     })); 
   }
+
+  async function onSubmit(e){
+      e.preventDefault()
+      try {
+        const auth = getAuth()
+        const userCredential = await signInWithEmailAndPassword(auth, email,password);
+        if(userCredential.user){
+          navigate("/");
+        }
+
+      } catch (error) {
+        toast.error("Bad user credentials");
+      }
+  }
   return (
     <section>
       <h1 className='text-3xl text-center mt-6 font-bold'>Sign In</h1>
@@ -27,7 +44,7 @@ export default function SignIn() {
         <img src="https://media.istockphoto.com/id/504481783/photo/giving-house-keys.webp?b=1&s=170667a&w=0&k=20&c=lVGYDmC1ebYn0XW6OkLS9D7yet-3odi-tBKzCykbtT4=" alt="key" className='w-full rounded-2xl'/>
         </div>
         <div className='w-full md:w-[67%] lg:w-[40%] lg:ml-20'>
-          <form action="">
+          <form onSubmit={onSubmit}>
               <input type="email" className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' id='email' value={email} onChange={onChange} placeholder='Email Address' />
           <div className='relative mb-6'>
           <input type={showPassword ? "text" : "password"} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' id='password' value={password} onChange={onChange} placeholder='Password' />
