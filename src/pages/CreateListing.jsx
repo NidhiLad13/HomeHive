@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Spinner from "../components/Spinner";
 import { toast} from "react-toastify"
 import Map from '../components/Map';
@@ -73,10 +73,10 @@ export default function CreateListing() {
     async function onSubmit(e) {
         e.preventDefault();
         setLoading(true);
-        if(discountedPrice <= regularPrice){
+        if(+discountedPrice >= +regularPrice){
             setLoading(false)
             toast.error("Discounted price need to be less than regular price");
-            return ;
+            return;
         }
         if(images.length > 6){
             setLoading(false);
@@ -147,6 +147,7 @@ export default function CreateListing() {
             ...formData,
             imgUrls,
             timestamp: serverTimestamp(),
+            userRef: auth.currentUser.uid,
         };
         delete formDataCopy.images;
         !formDataCopy.offers && delete formData.discountedPrice;
