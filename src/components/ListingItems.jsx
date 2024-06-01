@@ -2,8 +2,10 @@ import React from 'react'
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import { FaLocationDot } from "react-icons/fa6";
+import { MdEdit } from "react-icons/md";
+import { FaTrashCan } from "react-icons/fa6";
 
-export default function ListingItems({listing, id}) {
+export default function ListingItems({listing, id, onEdit, onDelete}) {
   return <li className='relative bg-white flex flex-col justify-between items-center shadow-md hover:shadow-xl rounded-md overflow-hidden transition-shadow duration-150 m-[10px]'>
       <Link className='contents' to={`/category/${listing.type}/${id}`}>
         <img className="h-[170px] w-full object-cover hover:scale-105 transition-scale duration-150 ease-in" loading='lazy' src={listing.imgUrls[0]}/>
@@ -29,6 +31,12 @@ export default function ListingItems({listing, id}) {
           </div>
         </div>
        </Link>
+       {onEdit && (
+        <MdEdit className='absolute bottom-2 right-7 h-4 cursor-pointer text-blue-600' onClick={()=>onEdit(listing.id)}/>
+       )}
+       {onDelete && (
+        <FaTrashCan className='absolute bottom-2 right-2 h-[14px] cursor-pointer text-red-600' onClick={()=>onDelete(listing.id)}/>
+       )}
     </li>;
 }
  
