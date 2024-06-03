@@ -29,7 +29,7 @@ export default function OAuth() {
         });
       }
 
-      navigate("/",{ state: {email: user.email}});
+      navigate("/");
     } catch (error) {
       toast.error("Could not authorize with Google");
     }
