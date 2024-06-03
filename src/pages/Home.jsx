@@ -44,7 +44,7 @@ export default function Home() {
     }
     fetchListings();
   }, []);
-  // Places for rent
+
   const [rentListings, setRentListings] = useState(null);
   useEffect(() => {
     async function fetchListings() {
