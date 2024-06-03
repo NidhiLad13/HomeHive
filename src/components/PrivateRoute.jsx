@@ -1,13 +1,15 @@
-import React from 'react'
-import { Outlet, Navigate } from 'react-router'
-import {useAuthStatus} from '../hooks/useAuthStatus';
-import Spinner from './Spinner';
-export default function PrivateRoute() {
-    
-    const {loggedIn, checkingStatus} = useAuthStatus();
-    if(checkingStatus){
-        return <Spinner></Spinner>;
-    }
-    return loggedIn ? <Outlet/> : <Navigate to="/sign-in"/>;
-  
-}
+import { Outlet, Navigate } from "react-router-dom";
+import { useAuthStatus } from "../hooks/useAuthStatus"; // Example hook to check auth status
+import Spinner from "./Spinner";
+
+const PrivateRoute = () => {
+  const { loggedIn, checkingStatus } = useAuthStatus();
+
+  if (checkingStatus) {
+    return <Spinner />; // Or any other loading component
+  }
+
+  return loggedIn ? <Outlet /> : <Navigate to="/sign-in" />;
+};
+
+export default PrivateRoute;
