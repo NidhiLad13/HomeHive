@@ -8,12 +8,16 @@ import {db} from '../firebase';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 export default function SignUp() {
 
+  const location = useLocation();
+  const emailFromGoogle = location.state ? location.state.email : '';
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
+    email: emailFromGoogle || "",
     password:"",
   });
 
@@ -27,6 +31,12 @@ export default function SignUp() {
     })); 
   }
 
+  useEffect(() => {
+    if (emailFromGoogle) {
+      setFormData((prevState) => ({...prevState, email: emailFromGoogle }));
+    }
+  }, [emailFromGoogle]);
+
   async function onSubmit(e){
     e.preventDefault()
 
@@ -34,7 +44,8 @@ export default function SignUp() {
       const auth = getAuth();
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       updateProfile(auth.currentUser, {
-        displayName: name
+        displayName: name,
+        email: email,
       })
       const user = userCredential.user
       const formDataCopy = {...formData}
@@ -58,7 +69,7 @@ export default function SignUp() {
         <div className='w-full md:w-[67%] lg:w-[40%] lg:ml-20'>
           <form onSubmit={onSubmit}>
           <input type="name" className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' id='name' value={name} onChange={onChange} placeholder='Full Name' />
-              <input type="email" className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' id='email' value={email} onChange={onChange} placeholder='Email Address' />
+              <input type="email" className='mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' id='email' value={email || emailFromGoogle} onChange={onChange} placeholder='Email Address' />
           <div className='relative mb-6'>
           <input type={showPassword ? "text" : "password"} className='w-full px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out' id='password' value={password} onChange={onChange} placeholder='Password' />
           {showPassword ? (

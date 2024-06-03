@@ -4,16 +4,19 @@ import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
+
 export default function OAuth() {
   const navigate = useNavigate();
+
   async function onGoogleClick() {
     try {
       const auth = getAuth();
       const provider = new GoogleAuthProvider();
+
+      provider.setCustomParameters({ prompt: 'select_account' });
+
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-
-      // check for the user
 
       const docRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(docRef);
@@ -26,11 +29,12 @@ export default function OAuth() {
         });
       }
 
-      navigate("/");
+      navigate("/",{ state: {email: user.email}});
     } catch (error) {
       toast.error("Could not authorize with Google");
     }
   }
+
   return (
     <button
       type="button"
