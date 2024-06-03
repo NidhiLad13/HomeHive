@@ -124,7 +124,7 @@ export default function Listing() {
               {listing.furnished ? "Furnished" : "Not furnished"}
             </li>
           </ul>
-          {/* {listing.userRef !== auth.currentUser?.uid && !contactLandlord && ( */}
+          {listing.userRef !== auth.currentUser?.uid && !contactLandlord && (
             <div className="mt-6">
               <button
                 onClick={() => setContactLandlord(true)}
@@ -133,7 +133,7 @@ export default function Listing() {
                 Contact Landlord
               </button>
             </div>
-          {/* )} */}
+          )}
           {contactLandlord && (
             <Contact userRef={listing.userRef} listing={listing} />
           )}
