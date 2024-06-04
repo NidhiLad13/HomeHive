@@ -29,15 +29,15 @@ export default function Header() {
                     <img src={logoImg} alt="logo" className="h-9 cursor-pointer" onClick={() => navigate("/")}/>
 
                 <div>
-                    <ul className="flex space-x-4">
+                    <ul className="flex space-x-6">
                         <li>
-                            <button className={`text-gray-900 ${pathMatchRoute("/") ? "font-semibold" : "font-normal"}`} onClick={() => navigate("/")}>Home</button>
+                            <button className={`text-gray-900 ${pathMatchRoute("/HomeHive") ? "text-black border-b-red-500 " : "text-gray-400 border-b-transparent"} border-b-[3px]`} onClick={() => navigate("/HomeHive")}>Home</button>
                         </li>
                         <li>
-                            <button className={`text-gray-900 ${pathMatchRoute("/offers") ? "font-semibold" : "font-normal"}`} onClick={() => navigate("/offers")}>Offers</button>
+                            <button className={`text-gray-900 ${pathMatchRoute("/offers") ? "text-black border-b-red-500" : "text-gray-400 border-b-transparent"} border-b-[3px]`} onClick={() => navigate("/offers")}>Offers</button>
                         </li>
                         <li>
-                            <button className={`text-gray-900 ${pathMatchRoute("/signin") ? "font-semibold" : "font-normal"}`} onClick={() => navigate("/signin")}>{pageState}</button>
+                            <button className={`text-gray-900 ${pathMatchRoute("/sign-in") ? "text-black border-b-red-500" : "text-gray-400 border-b-transparent"} border-b-[3px]`} onClick={() => navigate("/sign-in")}>{pageState}</button>
                         </li>
                     </ul>
                 </div>
