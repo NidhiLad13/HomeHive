@@ -52,7 +52,7 @@ body {
 }
 
 /* Media query for 375px wide screens */
-@media (max-width: 375px) {
+@media (max-width: 357px) {
   .container {
     width: 100%;
     padding: 10px;

@@ -3,18 +3,18 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
   orderBy,
   query,
   updateDoc,
   where,
 } from "firebase/firestore";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { db } from "../firebase";
 import { FcHome } from "react-icons/fc";
-import { useEffect } from "react";
 import ListingItem from "../components/ListingItems";
 
 export default function Profile() {
@@ -27,27 +27,31 @@ export default function Profile() {
     name: auth.currentUser.displayName,
     email: auth.currentUser.email,
   });
+
+  
   const { name, email } = formData;
+
   function onLogout() {
     auth.signOut();
     navigate("/");
   }
+
   function onChange(e) {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,
     }));
   }
+  console.log(email);
   async function onSubmit() {
     try {
       if (auth.currentUser.displayName !== name) {
-        //update display name in firebase auth
+        // Update display name in Firebase Auth
         await updateProfile(auth.currentUser, {
           displayName: name,
         });
 
-        // update name in the firestore
-
+        // Update name in Firestore
         const docRef = doc(db, "users", auth.currentUser.uid);
         await updateDoc(docRef, {
           name,
@@ -58,6 +62,7 @@ export default function Profile() {
       toast.error("Could not update the profile details");
     }
   }
+
   useEffect(() => {
     async function fetchUserListings() {
       const listingRef = collection(db, "listings");
@@ -77,9 +82,10 @@ export default function Profile() {
       setListings(listings);
       setLoading(false);
     }
+
     fetchUserListings();
   }, [auth.currentUser.uid]);
-   
+
   async function onDelete(listingID) {
     if (window.confirm("Are you sure you want to delete?")) {
       await deleteDoc(doc(db, "listings", listingID));
@@ -90,9 +96,11 @@ export default function Profile() {
       toast.success("Successfully deleted the listing");
     }
   }
+
   function onEdit(listingID) {
     navigate(`/edit-listing/${listingID}`);
   }
+
   return (
     <>
       <section className="max-w-6xl mx-auto flex justify-center items-center flex-col">
@@ -100,7 +108,6 @@ export default function Profile() {
         <div className="w-full md:w-[50%] mt-6 px-3">
           <form>
             {/* Name Input */}
-
             <input
               type="text"
               id="name"
@@ -113,11 +120,11 @@ export default function Profile() {
             />
 
             {/* Email Input */}
-
             <input
               type="email"
               id="email"
               value={email}
+              onChange={onChange}
               disabled
               className="mb-6 w-full px-4 py-2 text-xl text-gray-700 bg-white border border-gray-300 rounded transition ease-in-out"
             />
@@ -161,7 +168,7 @@ export default function Profile() {
         {!loading && listings.length > 0 && (
           <>
             <h2 className="text-2xl text-center font-semibold mb-6">
-              MY LISTINGS
+              My Listings
             </h2>
             <ul className="sm:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
               {listings.map((listing) => (

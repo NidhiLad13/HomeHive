@@ -106,24 +106,25 @@ export default function Listing() {
             <span className="font-semibold">Description - </span>
             {listing.description}
           </p>
-          <ul className="flex items-center space-x-2 sm:space-x-10 text-sm font-semibold mb-6">
-            <li className="flex items-center whitespace-nowrap">
-              <FaBed className="text-lg mr-1" />
-              {+listing.bedrooms > 1 ? `${listing.bedrooms} Beds` : "1 Bed"}
-            </li>
-            <li className="flex items-center whitespace-nowrap">
-              <FaBath className="text-lg mr-1" />
-              {+listing.bathrooms > 1 ? `${listing.bathrooms} Baths` : "1 Bath"}
-            </li>
-            <li className="flex items-center whitespace-nowrap">
-              <FaParking className="text-lg mr-1" />
-              {listing.parking ? "Parking spot" : "No parking"}
-            </li>
-            <li className="flex items-center whitespace-nowrap">
-              <FaChair className="text-lg mr-1" />
-              {listing.furnished ? "Furnished" : "Not furnished"}
-            </li>
-          </ul>
+          <ul className="flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-x-10 text-sm font-semibold mb-6">
+  <li className="flex items-center whitespace-nowrap">
+    <FaBed className="text-lg mr-1" />
+    {+listing.bedrooms > 1 ? `${listing.bedrooms} Beds` : "1 Bed"}
+  </li>
+  <li className="flex items-center whitespace-nowrap">
+    <FaBath className="text-lg mr-1" />
+    {+listing.bathrooms > 1 ? `${listing.bathrooms} Baths` : "1 Bath"}
+  </li>
+  <li className="flex items-center whitespace-nowrap">
+    <FaParking className="text-lg mr-1" />
+    {listing.parking ? "Parking spot" : "No parking"}
+  </li>
+  <li className="flex items-center whitespace-nowrap">
+    <FaChair className="text-lg mr-1" />
+    {listing.furnished ? "Furnished" : "Not furnished"}
+  </li>
+</ul>
+
           {listing.userRef !== auth.currentUser?.uid && !contactLandlord && (
             <div className="mt-6">
               <button
