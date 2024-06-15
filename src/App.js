@@ -13,6 +13,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import EditListing from "./pages/EditListing";
 import Listing from "./pages/Listing";
 import Category from "./pages/Category";
+import SearchResultsPage from "./pages/SearchResultsPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/HomeHive" element={<Home />} />
+          <Route path="/search-results/:searchPrice" element={<SearchResultsPage/>} />
           <Route path="/profile" element={<PrivateRoute />}>
             <Route index element={<Profile />} />
           </Route>         

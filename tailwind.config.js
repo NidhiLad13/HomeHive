@@ -5,6 +5,16 @@ module.exports = {
   ],
   theme: {
     extend: {
+      animation: {
+        marquee: 'marquee 15s linear infinite ',
+        display: 'inline-block',
+      },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        }
+      },
       screens: {
         'phone': '375px', // Custom breakpoint for 375px wide screens
         'tablet': '640px',
@@ -13,5 +23,7 @@ module.exports = {
       },
     },
   },
+  variants: {},
   plugins: [require('@tailwindcss/forms')],
 }
+
