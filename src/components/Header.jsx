@@ -1,47 +1,78 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import logoImg from "../assets/logo.png";
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-export default function Header() { 
-    const [pageState, setPageState] = useState("Sign in");
-    const location = useLocation(); 
-    const navigate = useNavigate();
-    const auth = getAuth();
-    
-    useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setPageState("Profile");
-            } else {
-                setPageState("Sign in");
-            }
-        });
-    }, [auth]);
+export default function Header() {
+  const [pageState, setPageState] = useState("Sign in");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const auth = getAuth();
 
-    function pathMatchRoute(route) {
-        return location.pathname === route;
-    }
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setPageState("Profile");
+      } else {
+        setPageState("Sign in");
+      }
+    });
+  }, [auth]);
 
-    return (
-        <nav className="bg-slate-400 border-gray-200 dark:bg-gray-900" style={{backgroundColor:"#e6e6e6"}}>
-            <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
-                    <img src={logoImg} alt="logo" className="h-9 cursor-pointer" onClick={() => navigate("/")}/>
+  function pathMatchRoute(route) {
+    return location.pathname === route;
+  }
 
-                <div>
-                    <ul className="flex space-x-6">
-                        <li>
-                            <button className={`text-gray-900 ${pathMatchRoute("/HomeHive") ? "text-black border-b-red-500 " : "text-gray-400 border-b-transparent"} border-b-[3px]`} onClick={() => navigate("/HomeHive")}>Home</button>
-                        </li>
-                        <li>
-                            <button className={`text-gray-900 ${pathMatchRoute("/offers") ? "text-black border-b-red-500" : "text-gray-400 border-b-transparent"} border-b-[3px]`} onClick={() => navigate("/offers")}>Offers</button>
-                        </li>
-                        <li>
-                            <button className={`text-gray-900 ${pathMatchRoute("/sign-in") ? "text-black border-b-red-500" : "text-gray-400 border-b-transparent"} border-b-[3px]`} onClick={() => navigate("/sign-in")}>{pageState}</button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    );
+  return (
+    <nav className="bg-slate-400 border-gray-200 dark:bg-gray-900" style={{ backgroundColor: "#e6e6e6" }}>
+      <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
+        <img
+          src={logoImg}
+          alt="logo"
+          className="h-9 cursor-pointer"
+          onClick={() => navigate("/")}
+        />
+        <div>
+          <ul className="flex space-x-6">
+            <li>
+              <button
+                className={`text-gray-900 ${
+                  pathMatchRoute("/HomeHive")
+                    ? "text-black border-b-red-500"
+                    : "text-gray-400 border-b-transparent"
+                } border-b-2 py-2`}
+                onClick={() => navigate("/HomeHive")}
+              >
+                Home
+              </button>
+            </li>
+            <li>
+              <button
+                className={`text-gray-900 ${
+                  pathMatchRoute("/offers")
+                    ? "text-black border-b-red-500 "
+                    : "text-gray-400 border-b-transparent"
+                } border-b-2 py-2`}
+                onClick={() => navigate("/offers")}
+              >
+                Offers
+              </button>
+            </li>
+            <li>
+              <button
+                className={`text-gray-900 ${
+                  pathMatchRoute("/sign-in") || pathMatchRoute("/profile")
+                    ? "text-black border-b-red-500"
+                    : "text-gray-400 border-b-transparent"
+                } border-b-2 py-2`}
+                onClick={() => navigate("/profile")}
+              >
+                {pageState}
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  );
 }
